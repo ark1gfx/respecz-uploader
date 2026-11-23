@@ -1,0 +1,14 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Connecting… · ReSpecz Uploader</title>
+<style>body{margin:0;font-family:-apple-system,Segoe UI,Roboto,sans-serif;background:#03050a;color:#e8eef8;display:grid;place-items:center;min-height:100vh}main{max-width:520px;padding:24px;text-align:center}a{color:#4da3ff}code{display:block;word-break:break-all;background:#0d1424;padding:12px;border-radius:10px;margin:12px 0;font-size:13px}</style></head>
+<body><main><h1>ReSpecz Uploader</h1><p id="msg">Finishing sign-in…</p><code id="code" hidden></code></main>
+<script>
+// TikTok sends the user back here; hand the result to the ReSpecz Studio app running on this same computer.
+const q = new URLSearchParams(location.search);
+const msg = document.getElementById('msg');
+if (q.get('error')) { msg.textContent = 'TikTok sign-in was cancelled or failed: ' + (q.get('error_description') || q.get('error')); }
+else if (q.get('code')) {
+  const local = 'http://localhost:4747/tiktok/callback?' + new URLSearchParams({ code: q.get('code'), state: q.get('state') || '', scopes: q.get('scopes') || '' });
+  msg.innerHTML = 'Signed in. Returning to ReSpecz Studio… If nothing happens, <a href="' + local + '">click here</a>.';
+  location.replace(local);
+} else { msg.textContent = 'Nothing to do here. This page finishes the TikTok sign-in for ReSpecz Uploader.'; }
+</script></body></html>
